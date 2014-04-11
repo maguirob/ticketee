@@ -15,11 +15,24 @@ class UsersController < ApplicationController
   end
 
   def show
+    @user = User.find(params[:id])
+  end
+
+  def update
+    @users = users.find(params[:id])
+    if @users.update(project_params)
+      flash[:notice] = "User has been updated."
+      redirect_to @user
+    else
+       flash[:alert] = "User has not been updated."
+       render "edit"
+    end
   end
 
   private
     def user_params
       params.require(:user).permit(:name,
+                                   :email,
                                    :password,
                                    :password_confirmation)
     end
